@@ -5,12 +5,10 @@ import java.io.UnsupportedEncodingException;
 import kevin.zhang.NLPIR;
 
 public class TestUserdir {
-	public static String sinputString = "ºÃ¿ªÉ­£¬ËæºóÎÂ¼Ò±¦×ÜÀí¾ÍÀë¿ªÁËÖÛÇúÏØ³Ç¡£ÒÔÉÏ¾ÍÊÇ½ñÌìÉÏÎçµÄ×îĞÂ¶¯Ì¬";
+	public static String sinputString = "æ´¥äº¬æˆ˜åŒ—äº¬è¿ç»­ä¸‰åœºè´Ÿå¤©æ´¥ å­™æ‚¦ç ä¸‹21+7+6éš¾æ•‘ä¸»+æ–°æµªä½“è‚²è®¯ã€€åŒ—äº¬æ—¶é—´12æœˆ18æ—¥å¤©æ´¥æ¶ˆæ¯ï¼Œ2013-2014èµ›å­£CBA[å¾®åš]è”èµ›ç¬¬14è½®ï¼Œä¸»åœºä½œæˆ˜çš„å¤©æ´¥é˜Ÿä»¥107-104è‰°éš¾æˆ˜èƒœåŒ—äº¬é˜Ÿï¼Œæ”¶è·å››è¿èƒœçš„åŒæ—¶ï¼Œä¹Ÿç»§ç»­ä¿æŒå¯¹åŒ—äº¬é˜Ÿçš„ä¸‰è¿èƒœã€‚";
 
 	public static void main(String[] args) throws UnsupportedEncodingException {
-		/**
-		 * ³õÊ¼»¯
-		 */
+
 		NLPIR myNLPIR = new NLPIR();
 		String argu = "./";
 		System.out.println("NLPIR_Init");
@@ -18,37 +16,17 @@ public class TestUserdir {
 			System.out.println("Init Fail!");
 			return;
 		}
-		/****
-		 * Ã»µ¼ÈëÓÃ»§×ÖµäÖ®Ç°
-		 */
-		// µ¼ÈëÓÃ»§´ÊµäÇ°
-		byte nativeBytes[] = myNLPIR.NLPIR_ParagraphProcess(
-				sinputString.getBytes("UTF-8"), 1);
-		String nativeStr = new String(nativeBytes, 0, nativeBytes.length,
-				"UTF-8");
 
-		System.out.println("·Ö´Ê½á¹ûÎª£º " + nativeStr);
+		// å¯¼å…¥ç”¨æˆ·å­—å…¸ä¹‹å
+		int count = myNLPIR.NLPIR_ImportUserDict("./dictionary/user_dirct.txt"
+				.getBytes("UTF-8"));
 
-		// µ¼ÈëÓÃ»§×Öµä
-		int count = myNLPIR
-				.NLPIR_ImportUserDict("E:\\android\\android_workplace2\\ICT\\dictionary\\user_dirct.txt"
-						.getBytes("UTF-8"));
-		System.out.println(count);
-		// ĞÂ´ÊÊÇÊ¶±ğ
-
-		myNLPIR.NLPIR_NWI_Start();
-		myNLPIR.NLPIR_NWI_AddFile(sinputString.getBytes("UTF-8"));
-		myNLPIR.NLPIR_NWI_Complete();
-		nativeBytes = myNLPIR.NLPIR_NWI_GetResult(true);
-		nativeStr = new String(nativeBytes, 0, nativeBytes.length, "UTF-8");
-		System.out.println("ĞÂ´ÊÊ¶±ğ½á¹û " + nativeStr);
-
-		// µ¼ÈëÓÃ»§´Êµäºó
+		// åˆ†è¯
 		byte nativeBytes2[] = myNLPIR.NLPIR_ParagraphProcess(
 				sinputString.getBytes("UTF-8"), 1);
 		String nativeStr2 = new String(nativeBytes2, 0, nativeBytes2.length,
 				"UTF-8");
 
-		System.out.println("·Ö´Ê½á¹ûÎª£º " + nativeStr2);
+		System.out.println("å¯¼å…¥ç”¨æˆ·å­—å…¸ä¹‹å:" + nativeStr2);
 	}
 }
