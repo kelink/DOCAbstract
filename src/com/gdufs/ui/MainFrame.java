@@ -52,7 +52,6 @@ import com.gdufs.model.Document;
 import com.gdufs.util.FileUtil;
 
 public class MainFrame extends JFrame {
-
 	private JPanel contentPane;
 	private JPanel toolBarPanel;
 	private JTabbedPane tabbedPane;
@@ -93,7 +92,8 @@ public class MainFrame extends JFrame {
 	private JScrollPane abstractScrollPane;
 	private JPanel infoPanel;
 	private JComboBox<?> rateComboBox;
-	private JTextArea AbstractTextArea;
+
+	public static JTextArea AbstractTextArea;
 	private JLabel timeLabel;
 	private JLabel rateLabel;
 	private JLabel statueLabel;
@@ -1108,15 +1108,7 @@ public class MainFrame extends JFrame {
 			JOptionPane.showMessageDialog(this, "文摘内容为空！");
 			return;
 		}
-		for (int i = 0; i < docAbstractsList.size(); i++) {
-			// 重新创建File对象
-			File temp = d_Files.get(index);
-			String fileName = temp.getName();
-			String filePath = temp.getAbsolutePath();
-			String dir = filePath.replaceAll(fileName, "");
-			File file = new File(dir + "abs_" + fileName);
-			MyEditor.save(file, docAbstractsList.get(index));
-		}
+		MyEditor.folderDig(MyEditor.shell, d_Files, docAbstractsList);
 	}
 
 	// 另存为(有问题。。。)

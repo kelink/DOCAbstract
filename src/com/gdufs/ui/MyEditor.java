@@ -4,10 +4,12 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.MessageBox;
@@ -30,7 +32,7 @@ public class MyEditor extends JFrame {
 	public static void main(String[] args) {
 		MyEditor testChooser = new MyEditor();
 		testChooser.setVisible(true);
-		System.out.println(testChooser.openFile());
+		// testChooser.folderDig(shell);
 	}
 
 	/**
@@ -92,13 +94,7 @@ public class MyEditor extends JFrame {
 				fw.close();
 			} catch (Exception e) {
 				e.printStackTrace();
-			} finally {
-				MessageBox messageBox = new MessageBox(shell, SWT.YES);
-				messageBox.setMessage("保存成功");
-				messageBox.setText("温馨提示");
-				int response = messageBox.open();
-				if (response == SWT.YES)
-					return;
+				return;
 			}
 		}
 
@@ -148,5 +144,48 @@ public class MyEditor extends JFrame {
 		int response = messageBox.open();
 		if (response == SWT.YES)
 			return;
+	}
+
+	/**
+	 * 文件夹（目录）选择对话框
+	 * 
+	 * @return
+	 */
+	public static void folderDig(Shell parent, ArrayList<File> files,
+			ArrayList<String> docAbstractsList) {
+		// 新建文件夹（目录）对话框
+		DirectoryDialog folderdlg = new DirectoryDialog(parent);
+		// 设置文件对话框的标题
+		folderdlg.setText("文件选择");
+		// 设置初始路径
+		folderdlg.setFilterPath("d:");
+		// 设置对话框提示文本信息
+		folderdlg.setMessage("请选择相应的文件夹");
+		// 打开文件对话框，返回选中文件夹目录
+		String selecteddir = folderdlg.open();
+		if (selecteddir == null) {
+			FileWriter fw;
+			BufferedWriter bw;
+			for (int i = 0; i < docAbstractsList.size(); i++) {
+				char[] bytes = docAbstractsList.get(i).toCharArray();
+				String fileName = "abc_" + files.get(i).getName();
+				try {
+					fw = new FileWriter(new File(selecteddir + fileName));
+					bw = new BufferedWriter(fw);
+					bw.write(bytes, 0, bytes.length);
+					bw.flush();
+					bw.close();
+					fw.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					return;
+				}
+
+			}
+			return;
+		} else {
+			System.out.println("您选中的文件夹目录为：" + selecteddir);
+		}
 	}
 }
